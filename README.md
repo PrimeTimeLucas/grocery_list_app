@@ -29,10 +29,36 @@
     "items": ["item1", "item2"]
 }
 ```
+- Response: `201 Created` with list ID
 
 **Get All Lists**
 - `GET /lists`
 - Headers: `Authorization: Bearer <jwt_token>`
+- Response: `200 OK` with array of lists
+```json
+[
+    {
+        "id": 1,
+        "items": ["item1", "item2"]
+    }
+]
+```
+
+**Update List**
+- `PUT /lists/<list_id>`
+- Headers: `Authorization: Bearer <jwt_token>`
+- Request body:
+```json
+{
+    "items": ["updated_item1", "updated_item2"]
+}
+```
+- Response: `200 OK` with success message
+
+**Delete List**
+- `DELETE /lists/<list_id>`
+- Headers: `Authorization: Bearer <jwt_token>`
+- Response: `200 OK` with success message
 
 ## Setup Instructions
 
