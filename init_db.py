@@ -1,6 +1,7 @@
 from app import app
-from models import db, User, GroceryList  # Explicit model imports
+from models import db, User, GroceryList, GroceryItem  # Import all models
 
 with app.app_context():
-    db.create_all()
-    print('Database tables created!')  # Add confirmation message
+    db.drop_all()  # Drop existing tables
+    db.create_all()  # Create new tables with current schema
+    print('Database schema updated successfully!')
