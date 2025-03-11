@@ -12,6 +12,8 @@ jwt = JWTManager(app)
 @app.route('/register', methods=['POST'])
 def register():
     data = request.get_json()
+    if User.query.filter_by(username=data['username']).first():
+        return jsonify(message='Username already exists'), 400
     hashed_password = generate_password_hash(data['password'])
     new_user = User(username=data['username'], password=hashed_password)
     db.session.add(new_user)
