@@ -36,34 +36,39 @@ def create_list():
     current_user_id = int(get_jwt_identity())
     data = request.get_json()
     
-    if not request.is_json or 'items' not in data:
-        return jsonify(message='Missing items in request'), 400
+    if not request.is_json:  # Relax validation
+        return jsonify(message='Invalid request format'), 400
         
-    if not isinstance(data['items'], list):
-        return jsonify(message='Items must be an array'), 400
-    
+    # Allow items without prices during initial creation
     new_list = GroceryList(
         user_id=current_user_id,
         store_name=data.get('store_name')
     )
     
-    # Add items with validation
-    for item in data['items']:
-        if not isinstance(item, dict) or 'name' not in item or 'price' not in item:
-            return jsonify(message='Each item must have name and price'), 400
+    for item in data.get('items', []):
+        if not isinstance(item, dict) or 'name' not in item:
+            continue  # Skip invalid items
             
+        name = item.get('name', '').strip()
+        if not name:
+            continue  # Skip empty items
+        
+        # Handle price more flexibly
         try:
-            price = float(item['price'])
+            price = float(item.get('price', 0.0))
         except (ValueError, TypeError):
-            return jsonify(message='Price must be a number'), 400
+            price = 0.0  # Default to zero for invalid prices
             
         new_item = GroceryItem(
-            name=item['name'],
+            name=name,
             price=price,
             store=item.get('store') or data.get('store_name')
         )
         new_list.items.append(new_item)
     
+    if not new_list.items:
+        return jsonify(message='At least one valid item required'), 400
+        
     db.session.add(new_list)
     db.session.commit()
     
