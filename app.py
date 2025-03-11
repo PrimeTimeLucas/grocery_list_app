@@ -50,6 +50,37 @@ def get_lists():
     return jsonify([{'id': l.id, 'items': l.items} for l in lists]), 200
 
 # Add update and delete endpoints similarly
+@app.route('/lists/<int:list_id>', methods=['PUT'])
+@jwt_required()
+def update_list(list_id):
+    current_user_id = get_jwt_identity()
+    grocery_list = GroceryList.query.filter_by(
+        id=list_id, 
+        user_id=current_user_id
+    ).first()
+    
+    if not grocery_list:
+        return jsonify(message='List not found'), 404
+    
+    grocery_list.items = request.json.get('items', grocery_list.items)
+    db.session.commit()
+    return jsonify(message='List updated'), 200
+
+@app.route('/lists/<int:list_id>', methods=['DELETE'])
+@jwt_required()
+def delete_list(list_id):
+    current_user_id = get_jwt_identity()
+    grocery_list = GroceryList.query.filter_by(
+        id=list_id, 
+        user_id=current_user_id
+    ).first()
+    
+    if not grocery_list:
+        return jsonify(message='List not found'), 404
+    
+    db.session.delete(grocery_list)
+    db.session.commit()
+    return jsonify(message='List deleted'), 200
 
 if __name__ == '__main__':
     app.run()
