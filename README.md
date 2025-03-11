@@ -153,8 +153,38 @@ python init_db.py
 python app.py
 ```
 
+4. Start the Streamlit frontend (in a new terminal):
+```bash
+pip install streamlit
+streamlit run streamlit_app.py
+```
+
 ## Testing
 Run the test notebook:
 ```bash
 jupyter notebook Grocery_List_API_Test.ipynb
 ```
+
+## Using the Streamlit Frontend
+
+The Streamlit frontend provides an intuitive interface for managing your grocery lists:
+
+1. **Authentication**:
+   - Register a new account or login with existing credentials
+   - JWT tokens are managed automatically
+
+2. **Creating Lists**:
+   - Add store name and items (one per line)
+   - Items can be added without prices initially
+
+3. **Shopping Mode**:
+   - Open a list for shopping
+   - Check off items as you shop
+   - Enter/update prices in real-time
+   - See running total of checked items
+   - Save your changes
+
+4. **List Management**:
+   - View all your grocery lists
+   - Delete unwanted lists
+   - Track spending history
