@@ -26,10 +26,27 @@
 - Request body:
 ```json
 {
-    "items": ["item1", "item2"]
+    "store_name": "Supermarket ABC",
+    "items": [
+        {
+            "name": "Milk",
+            "price": 2.99,
+            "store": "Dairy Section"
+        },
+        {
+            "name": "Bread",
+            "price": 3.49
+        }
+    ]
 }
 ```
-- Response: `201 Created` with list ID
+- Response: `201 Created` with list ID and total
+```json
+{
+    "id": 1,
+    "total": 6.48
+}
+```
 
 **Get All Lists**
 - `GET /lists`
@@ -39,9 +56,36 @@
 [
     {
         "id": 1,
-        "items": ["item1", "item2"]
+        "store": "Supermarket ABC",
+        "total": 6.48,
+        "item_count": 2,
+        "created_at": "2023-04-15T14:30:45"
     }
 ]
+```
+
+**Get List Details**
+- `GET /lists/<list_id>`
+- Headers: `Authorization: Bearer <jwt_token>`
+- Response: `200 OK` with list details
+```json
+{
+    "id": 1,
+    "store": "Supermarket ABC",
+    "total": 6.48,
+    "items": [
+        {
+            "name": "Milk",
+            "price": 2.99,
+            "store": "Dairy Section"
+        },
+        {
+            "name": "Bread",
+            "price": 3.49,
+            "store": "Supermarket ABC"
+        }
+    ]
+}
 ```
 
 **Update List**
@@ -50,7 +94,13 @@
 - Request body:
 ```json
 {
-    "items": ["updated_item1", "updated_item2"]
+    "store_name": "Updated Store",
+    "items": [
+        {
+            "name": "Updated Item",
+            "price": 4.99
+        }
+    ]
 }
 ```
 - Response: `200 OK` with success message
@@ -59,6 +109,32 @@
 - `DELETE /lists/<list_id>`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Response: `200 OK` with success message
+
+**Monthly Spending Stats**
+- `GET /stats/monthly`
+- Headers: `Authorization: Bearer <jwt_token>`
+- Response: `200 OK` with monthly spending data
+```json
+[
+    {
+        "month": "2023-04",
+        "total": 125.45,
+        "list_count": 5,
+        "stores": {
+            "Supermarket ABC": 75.20,
+            "Farmers Market": 50.25
+        }
+    },
+    {
+        "month": "2023-03",
+        "total": 98.75,
+        "list_count": 4,
+        "stores": {
+            "Supermarket ABC": 98.75
+        }
+    }
+]
+```
 
 ## Setup Instructions
 
