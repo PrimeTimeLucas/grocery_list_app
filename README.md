@@ -5,8 +5,10 @@
 ### Authentication Endpoints
 
 **Register User**
+
 - `POST /register`
 - Request body:
+
 ```json
 {
     "username": "string",
@@ -15,15 +17,18 @@
 ```
 
 **Login**
+
 - `POST /login`
 - Returns JWT token for authenticated requests
 
 ### Grocery List Endpoints
 
 **Create List**
+
 - `POST /lists`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Request body:
+
 ```json
 {
     "store_name": "Supermarket ABC",
@@ -40,7 +45,9 @@
     ]
 }
 ```
+
 - Response: `201 Created` with list ID and total
+
 ```json
 {
     "id": 1,
@@ -49,9 +56,11 @@
 ```
 
 **Get All Lists**
+
 - `GET /lists`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Response: `200 OK` with array of lists
+
 ```json
 [
     {
@@ -65,9 +74,11 @@
 ```
 
 **Get List Details**
+
 - `GET /lists/<list_id>`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Response: `200 OK` with list details
+
 ```json
 {
     "id": 1,
@@ -89,9 +100,11 @@
 ```
 
 **Update List**
+
 - `PUT /lists/<list_id>`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Request body:
+
 ```json
 {
     "store_name": "Updated Store",
@@ -103,17 +116,21 @@
     ]
 }
 ```
+
 - Response: `200 OK` with success message
 
 **Delete List**
+
 - `DELETE /lists/<list_id>`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Response: `200 OK` with success message
 
 **Monthly Spending Stats**
+
 - `GET /stats/monthly`
 - Headers: `Authorization: Bearer <jwt_token>`
 - Response: `200 OK` with monthly spending data
+
 ```json
 [
     {
@@ -139,28 +156,34 @@
 ## Setup Instructions
 
 1. Install requirements:
+
 ```bash
 pip install -r requirements.txt
 ```
 
 2. Initialize database:
+
 ```bash
 python init_db.py
 ```
 
 3. Start server:
+
 ```bash
 python app.py
 ```
 
 4. Start the Streamlit frontend (in a new terminal):
+
 ```bash
 pip install streamlit
 streamlit run streamlit_app.py
 ```
 
 ## Testing
+
 Run the test notebook:
+
 ```bash
 jupyter notebook Grocery_List_API_Test.ipynb
 ```
@@ -170,21 +193,22 @@ jupyter notebook Grocery_List_API_Test.ipynb
 The Streamlit frontend provides an intuitive interface for managing your grocery lists:
 
 1. **Authentication**:
+
    - Register a new account or login with existing credentials
    - JWT tokens are managed automatically
-
 2. **Creating Lists**:
+
    - Add store name and items (one per line)
    - Items can be added without prices initially
-
 3. **Shopping Mode**:
+
    - Open a list for shopping
    - Check off items as you shop
    - Enter/update prices in real-time
    - See running total of checked items
    - Save your changes
-
 4. **List Management**:
+
    - View all your grocery lists
    - Delete unwanted lists
    - Track spending history

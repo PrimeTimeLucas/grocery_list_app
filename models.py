@@ -21,5 +21,5 @@ class GroceryItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     list_id = db.Column(db.Integer, db.ForeignKey('grocery_list.id'), nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    price = db.Column(db.Numeric(10, 2), nullable=False)
+    price = db.Column(db.Numeric(10, 2))
     store = db.Column(db.String(100))
